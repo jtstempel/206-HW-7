@@ -4,7 +4,7 @@ import requests
 import json
 
 ## SI 206 - HW
-## COMMENT WITH:
+## COMMENT WITH: Joseph Stempel
 ## Your section day/time: Thursday 6-7 PM
 ## Any names of people you worked with on this assignment:
 
@@ -77,7 +77,6 @@ except:
 ## 2. Write a function to get twitter data that works with the caching pattern, 
 ## 		so it either gets new data or caches data, depending upon what the input 
 ##		to search for is. 
-
 
 
 ## 3. Using a loop, invoke your function, save the return value in a variable, and explore the 
