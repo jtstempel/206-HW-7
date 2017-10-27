@@ -6,7 +6,7 @@ import json
 ## SI 206 - HW
 ## COMMENT WITH: Joseph Stempel
 ## Your section day/time: Thursday 6-7 PM
-## Any names of people you worked with on this assignment:
+## Any names of people you worked with on this assignment: None, yet
 
 ## Write code that uses the tweepy library to search for tweets with three different phrases of the 
 ## user's choice (should use the Python input function), and prints out the Tweet text and the 
@@ -78,6 +78,8 @@ except:
 ## 		so it either gets new data or caches data, depending upon what the input 
 ##		to search for is. 
 
+def get_Twitter_Data():
+	pass 
 
 ## 3. Using a loop, invoke your function, save the return value in a variable, and explore the 
 ##		data you got back!
