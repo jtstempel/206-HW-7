@@ -4,9 +4,9 @@ import requests
 import json
 
 ## SI 206 - HW
-## COMMENT WITH: Joseph Stempel
+## COMMENT WITH:
 ## Your section day/time: Thursday 6-7 PM
-## Any names of people you worked with on this assignment: None, yet
+## Any names of people you worked with on this assignment:
 
 ## Write code that uses the tweepy library to search for tweets with three different phrases of the 
 ## user's choice (should use the Python input function), and prints out the Tweet text and the 
@@ -64,22 +64,34 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 ## 1. Set up the caching pattern start -- the dictionary and the try/except 
 ## 		statement shown in class.
 
-CACHE_FNAME = 'Cache_HW7.json'
+CACHE_FNAME = 'Cache_HW7.json' 						## I am making a cache file and naming it "Cache_HW7" (and saving that as a variable CACHE_FNAME)
 
 try:
-    cache_file = open(CACHE_FNAME, 'r') 
-    cache_contents = cache_file.read()
-    CACHE_DICTION = json.loads(cache_contents)
-    cache_file.close()
+    cache_file = open(CACHE_FNAME, 'r') 		## I am opening the cache file (via the variable CACHE_FNAME)
+    cache_contents = cache_file.read()				## and reading the data of this cache file into a string
+    CACHE_DICTION = json.loads(cache_contents)			## I am loading this data of the cache file into a python object
+    cache_file.close()								## and am now closing the cache file
 except:
-    CACHE_DICTION = {}
+    CACHE_DICTION = {}								## if the above actions don't run then I want the data to go somewhere (this dictionary)
 
 ## 2. Write a function to get twitter data that works with the caching pattern, 
 ## 		so it either gets new data or caches data, depending upon what the input 
 ##		to search for is. 
 
 def get_Twitter_Data():
-	pass 
+	if my_var in CACHE_DICTION:
+		print("Data found in cache file")		## return all the contents associated with search item my_var, if my_var is found in cache file (has already been cached)
+		return CACHE_DICTION[my_var]
+	else:
+		print("Requesting new data...")				## if my_var has not been cached yet
+		tweet_search = api.search(my_var)
+		tweet_data = {}
+		tweet_data[tweet['text']] = tweet['created_at']
+		CACHE_DICTION[my_var] = tweet_data
+		writing_file = open(CACHE_FNAME, 'w')
+		writing_file.write(json.dumps(CACHE_DICTION))
+		writing_file.close()
+	return tweet_data
 
 ## 3. Using a loop, invoke your function, save the return value in a variable, and explore the 
 ##		data you got back!
