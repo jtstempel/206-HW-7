@@ -6,7 +6,7 @@ import json
 ## SI 206 - HW
 ## COMMENT WITH:
 ## Your section day/time: Thursday 6-7 PM
-## Any names of people you worked with on this assignment:
+## Any names of people you worked with on this assignment: Harrison Dvoor and I worked together on #4
 
 ## Write code that uses the tweepy library to search for tweets with three different phrases of the 
 ## user's choice (should use the Python input function), and prints out the Tweet text and the 
@@ -78,29 +78,43 @@ except:
 ## 		so it either gets new data or caches data, depending upon what the input 
 ##		to search for is. 
 
-def get_Twitter_Data():
+def get_Twitter_Data(my_var):
 	if my_var in CACHE_DICTION:
-		print("Data found in cache file")		## return all the contents associated with search item my_var, if my_var is found in cache file (has already been cached)
+		print ("Data found in cache file")		## return all the contents associated with search item my_var, if my_var is found in cache file (has already been cached)
 		return CACHE_DICTION[my_var]
 	else:
 		print("Requesting new data...")				## if my_var has not been cached yet
+		api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 		tweet_search = api.search(my_var)
 		tweet_data = {}
-		tweet_data[tweet['text']] = tweet['created_at']
+
+		for specific_tweet in tweet_search['statuses']:
+			tweet_data[specific_tweet['text']] = specific_tweet['created_at']
+
 		CACHE_DICTION[my_var] = tweet_data
 		writing_file = open(CACHE_FNAME, 'w')
 		writing_file.write(json.dumps(CACHE_DICTION))
 		writing_file.close()
+
 	return tweet_data
 
 ## 3. Using a loop, invoke your function, save the return value in a variable, and explore the 
 ##		data you got back!
 
+tweet_input = input("Enter Twitter search phrase - ")
+twitter_data = get_Twitter_Data(tweet_input)
 
 ## 4. With what you learn from the data -- e.g. how exactly to find the 
 ##		text of each tweet in the big nested structure -- write code to print out 
 ## 		content from 5 tweets, as shown in the linked example.
 
+my_count = 0
+for key in twitter_data.keys():
+	if (my_count < 5):
+		print ("Text: " + key)
+		print ("Created At: " + key)
+		print ("\n")
+		my_count = my_count + 1
 
 
 
