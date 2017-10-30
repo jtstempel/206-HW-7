@@ -64,7 +64,7 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 ## 1. Set up the caching pattern start -- the dictionary and the try/except 
 ## 		statement shown in class.
 
-CACHE_FNAME = 'Cache_HW7.json' 						## I am making a cache file and naming it "Cache_HW7" (and saving that as a variable CACHE_FNAME)
+CACHE_FNAME = 'Stempel_Cache_HW7.json' 						## I am making a cache file and naming it "Cache_HW7" (and saving that as a variable CACHE_FNAME)
 
 try:
     cache_file = open(CACHE_FNAME, 'r') 		## I am opening the cache file (via the variable CACHE_FNAME)
@@ -80,41 +80,44 @@ except:
 
 def get_Twitter_Data(my_var):
 	if my_var in CACHE_DICTION:
-		print ("Data found in cache file")		## return all the contents associated with search item my_var, if my_var is found in cache file (has already been cached)
-		return CACHE_DICTION[my_var]
+		print ("Using Cache")		## return all the contents associated with search item my_var, if my_var is found in cache file (has already been cached)
+		print ("\n")				
+		return CACHE_DICTION[my_var]		## I want returned the dictionary that comes with my search phrase
 	else:
-		print("Requesting new data...")				## if my_var has not been cached yet
+		print("Fetching...")				## if my_var has not been cached yet
+		print ("\n")						## I am putting (unneccessary) space between statement because it just looks nice
 		api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 		tweet_search = api.search(my_var)
-		tweet_data = {}
+		tweet_data = {}						## I want an empty dictionary to add more dictionaries to
 
 		for specific_tweet in tweet_search['statuses']:
-			tweet_data[specific_tweet['text']] = specific_tweet['created_at']
+			tweet_data[specific_tweet['text']] = specific_tweet['created_at']		
 
-		CACHE_DICTION[my_var] = tweet_data
-		writing_file = open(CACHE_FNAME, 'w')
-		writing_file.write(json.dumps(CACHE_DICTION))
-		writing_file.close()
+		CACHE_DICTION[my_var] = tweet_data								## adding my new dictionary to cached dictionary 
+		writing_file = open(CACHE_FNAME, 'w')							## opening cache file so I can write in it
+		writing_file.write(json.dumps(CACHE_DICTION))					## writing this cached dictionary (with new dictonary) to my cache file 
+		writing_file.close()										## done writing, closing cache file
 
 	return tweet_data
 
 ## 3. Using a loop, invoke your function, save the return value in a variable, and explore the 
 ##		data you got back!
 
-tweet_input = input("Enter Twitter search phrase - ")
-twitter_data = get_Twitter_Data(tweet_input)
+tweet_input = input("Enter Twitter search phrase - ")				## this is my user input
+twitter_data = get_Twitter_Data(tweet_input)					## invoking my get_Twitter_Data function using the user input's search phrase
 
 ## 4. With what you learn from the data -- e.g. how exactly to find the 
 ##		text of each tweet in the big nested structure -- write code to print out 
 ## 		content from 5 tweets, as shown in the linked example.
 
 my_count = 0
-for key in twitter_data.keys():
-	if (my_count < 5):
+for key in twitter_data.keys():				## for every key in the keys of the data I get by invoking my get_Twitter_Data function (with the search phrase)...
+	if (my_count < 5):						## I want the following printed 5 times
 		print ("Text: " + key)
-		print ("Created At: " + key)
-		print ("\n")
-		my_count = my_count + 1
+		print ("Created At: " + twitter_data[key])
+		print ("\n")									## per the directions, I want space in between Tweet data
+		my_count = my_count + 1						## making sure to increment by 1 until 5
+
 
 
 
